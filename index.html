@@ -1,159 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artículo: Share de Acciones</title>
+    <title>Share de Acciones</title>
     <style>
         /* Estilos generales */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
             scroll-snap-type: y mandatory;
-            overflow-y: scroll;
-            height: 100vh;
         }
 
-        section {
+        /* Estilo para cada sección */
+        .section {
+            width: 100vw;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             scroll-snap-align: start;
-            padding: 20px;
         }
 
-        /* Título centrado y en grande */
+        /* Sección 1: Título Animado */
         .title-section {
-            background-color: #333;
-            color: #fff;
+            background-color: #222;
+            color: white;
+            font-family: 'Verdana', sans-serif;
         }
 
-        h1 {
-            font-size: 5vw;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-
-        /* Contenedor para el gráfico */
-        .chart-section {
-            background-color: #f9f9f9;
-        }
-
-        canvas {
-            max-width: 80%;
-            max-height: 80%;
-        }
-
-        /* Contenedor de infografía */
-        .infographic-section {
-            background-color: #fff;
-        }
-
-        .infographic {
-            display: none;
-            max-width: 800px;
-            text-align: justify;
+        .animated-title {
+            font-size: 5rem;
             animation: fadeIn 2s ease-in-out;
         }
 
-        .infographic.show {
-            display: block;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Efecto de transición */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
+        /* Sección 2: Gráfico de Torta */
+        .chart-section {
+            background-color: #f4f4f4;
+        }
 
-            to {
-                opacity: 1;
-            }
+        #pieChart {
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        /* Estilos para mostrar el logo y leyenda al hacer hover */
+        .chart-section canvas:hover {
+            cursor: pointer;
+        }
+
+        /* Sección 3: Infografía */
+        .infographic-section {
+            background-color: #1c1c1c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .infographic h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .infographic p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Transiciones entre secciones */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
-</head>
-
-<body>
-    <section class="title-section">
-        <h1>Share de Acciones</h1>
-    </section>
-
-    <section class="chart-section">
-        <canvas id="shareChart"></canvas>
-    </section>
-
-    <section class="infographic-section">
-        <div class="infographic" id="infographic">
-            <h2>¿Por qué se muestran los datos de esta manera?</h2>
-            <p>
-                El gráfico de pastel es una herramienta visual que permite entender de manera sencilla
-                la distribución porcentual de un total. En este caso, se utiliza para mostrar cómo se
-                distribuye el share de acciones entre diferentes redes sociales durante el año 2022.
-                Instagram domina ampliamente el mercado con un 52% de las acciones, lo que refleja su
-                popularidad y la preferencia de los usuarios por esta plataforma para interactuar con
-                contenido. Facebook sigue siendo relevante con un 30%, mientras que TikTok y Twitter
-                representan una porción más pequeña, con 12% y 6% respectivamente. Estos datos son
-                cruciales para comprender las tendencias actuales en el consumo de redes sociales en la
-                región y cómo las marcas deben adaptar sus estrategias de marketing digital.
-            </p>
-        </div>
-    </section>
-
-    <!-- Cargar Chart.js desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Sección 1: Título Animado -->
+    <div class="section title-section">
+        <h1 class="animated-title">Share de Acciones</h1>
+    </div>
+
+    <!-- Sección 2: Gráfico de Torta -->
+    <div class="section chart-section">
+        <canvas id="pieChart"></canvas>
+    </div>
+
+    <!-- Sección 3: Infografía -->
+    <div class="section infographic-section">
+        <div class="infographic">
+            <h2>¿Por qué se muestran los datos de esta manera?</h2>
+            <p>El gráfico de pastel es una herramienta visual que permite entender de manera sencilla la distribución porcentual de un total. En este caso, se utiliza para mostrar cómo se distribuye el share de acciones entre diferentes redes sociales durante el año 2022.</p>
+            <p>Instagram domina ampliamente el mercado con un 52% de las acciones, lo que refleja su popularidad y la preferencia de los usuarios por esta plataforma para interactuar con contenido. Facebook sigue siendo relevante con un 30%, mientras que TikTok y Twitter representan una porción más pequeña, con 12% y 6% respectivamente.</p>
+            <p>Estos datos son cruciales para comprender las tendencias actuales en el consumo de redes sociales en la región y cómo las marcas deben adaptar sus estrategias de marketing digital.</p>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Crear el gráfico de pastel
-            const ctx = document.getElementById('shareChart').getContext('2d');
-            const shareChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Instagram', 'Facebook', 'TikTok', 'Twitter'],
-                    datasets: [{
-                        label: 'Share de Acciones por Canal Social',
-                        data: [52, 30, 12, 6],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 206, 86, 0.7)',
-                            'rgba(75, 192, 192, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Share de Acciones por Canal Social en 2022'
-                        }
-                    },
-                    animation: {
-                        onComplete: function () {
-                            // Mostrar la infografía después de que el gráfico se haya completado
-                            document.getElementById('infographic').classList.add('show');
+        // Configuración del gráfico de torta
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        const pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Instagram', 'Facebook', 'TikTok', 'Twitter'],
+                datasets: [{
+                    data: [52, 30, 12, 6],
+                    backgroundColor: ['#E1306C', '#3b5998', '#69C9D0', '#1DA1F2'],
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const index = context.dataIndex;
+                                const labels = [
+                                    'Instagram: 52 interacciones por canal', 
+                                    'Facebook: 30 interacciones por canal', 
+                                    'TikTok: 12 interacciones por canal', 
+                                    'Twitter: 6 interacciones por canal'
+                                ];
+                                return labels[index];
+                            }
                         }
                     }
                 }
-            });
+            }
         });
     </script>
 </body>
-
 </html>
