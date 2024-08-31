@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,50 +13,36 @@
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
-            scroll-behavior: smooth;
-        }
-
-        /* Contenedor principal con Scroll Snap */
-        .container {
-            height: 100vh;
-            overflow-y: scroll;
             scroll-snap-type: y mandatory;
-        }
-
-        /* Cada sección ocupa el 100% de la vista */
-        .section {
+            overflow-y: scroll;
             height: 100vh;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             scroll-snap-align: start;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
-            box-sizing: border-box;
         }
 
-        /* Estilo del título */
+        /* Título centrado y en grande */
         .title-section {
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
+            background-color: #333;
+            color: #fff;
         }
 
-        .title-section h1 {
-            font-size: 3rem;
+        h1 {
+            font-size: 5vw;
+            text-align: center;
             margin: 0;
-            animation: fadeIn 2s ease-in-out;
+            padding: 20px;
         }
 
         /* Contenedor para el gráfico */
         .chart-section {
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            background-color: #f9f9f9;
         }
 
         canvas {
@@ -65,77 +52,63 @@
 
         /* Contenedor de infografía */
         .infographic-section {
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            background-color: #fff;
+        }
+
+        .infographic {
+            display: none;
+            max-width: 800px;
             text-align: justify;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
+            animation: fadeIn 2s ease-in-out;
         }
 
-        .infographic-section.show {
-            opacity: 1;
-            transform: translateY(0);
+        .infographic.show {
+            display: block;
         }
 
-        .infographic-section h2 {
-            margin-bottom: 20px;
-        }
-
-        /* Animaciones */
+        /* Efecto de transición */
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Responsividad */
-        @media (max-width: 768px) {
-            .title-section h1 {
-                font-size: 2rem;
+            from {
+                opacity: 0;
             }
 
-            .infographic-section p {
-                font-size: 1rem;
+            to {
+                opacity: 1;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <!-- Sección del Título -->
-        <section class="section title-section">
-            <h1>Share de Acciones</h1>
-        </section>
+    <section class="title-section">
+        <h1>Share de Acciones</h1>
+    </section>
 
-        <!-- Sección del Gráfico -->
-        <section class="section chart-section">
-            <canvas id="shareChart"></canvas>
-        </section>
+    <section class="chart-section">
+        <canvas id="shareChart"></canvas>
+    </section>
 
-        <!-- Sección de la Infografía -->
-        <section class="section infographic-section" id="infographic">
+    <section class="infographic-section">
+        <div class="infographic" id="infographic">
             <h2>¿Por qué se muestran los datos de esta manera?</h2>
             <p>
-                El gráfico de pastel es una herramienta visual que permite entender de manera sencilla 
-                la distribución porcentual de un total. En este caso, se utiliza para mostrar cómo se 
+                El gráfico de pastel es una herramienta visual que permite entender de manera sencilla
+                la distribución porcentual de un total. En este caso, se utiliza para mostrar cómo se
                 distribuye el share de acciones entre diferentes redes sociales durante el año 2022.
-                Instagram domina ampliamente el mercado con un 52% de las acciones, lo que refleja su 
-                popularidad y la preferencia de los usuarios por esta plataforma para interactuar con 
-                contenido. Facebook sigue siendo relevante con un 30%, mientras que TikTok y Twitter 
-                representan una porción más pequeña, con 12% y 6% respectivamente. Estos datos son 
-                cruciales para comprender las tendencias actuales en el consumo de redes sociales en la 
+                Instagram domina ampliamente el mercado con un 52% de las acciones, lo que refleja su
+                popularidad y la preferencia de los usuarios por esta plataforma para interactuar con
+                contenido. Facebook sigue siendo relevante con un 30%, mientras que TikTok y Twitter
+                representan una porción más pequeña, con 12% y 6% respectivamente. Estos datos son
+                cruciales para comprender las tendencias actuales en el consumo de redes sociales en la
                 región y cómo las marcas deben adaptar sus estrategias de marketing digital.
             </p>
-        </section>
-    </div>
+        </div>
+    </section>
 
     <!-- Cargar Chart.js desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Crear el gráfico de pastel
             const ctx = document.getElementById('shareChart').getContext('2d');
             const shareChart = new Chart(ctx, {
@@ -172,35 +145,15 @@
                         }
                     },
                     animation: {
-                        animateScale: true,
-                        animateRotate: true,
-                        duration: 2000,
-                        onComplete: function() {
-                            // Opcional: Puedes agregar algo aquí si deseas
+                        onComplete: function () {
+                            // Mostrar la infografía después de que el gráfico se haya completado
+                            document.getElementById('infographic').classList.add('show');
                         }
                     }
                 }
             });
-
-            // Detectar cuando la infografía entra en la vista para mostrarla
-            const infographicSection = document.getElementById('infographic');
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.5
-            };
-
-            const observer = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('show');
-                        observer.unobserve(entry.target); // Dejar de observar después de mostrar
-                    }
-                });
-            }, observerOptions);
-
-            observer.observe(infographicSection);
         });
     </script>
 </body>
+
 </html>
