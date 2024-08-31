@@ -11,6 +11,7 @@
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
             scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
         }
 
         /* Estilo para cada sección */
@@ -46,6 +47,9 @@
         /* Sección 2: Gráfico de Torta */
         .chart-section {
             background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #pieChart {
@@ -59,6 +63,13 @@
             color: white;
             padding: 20px;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .infographic {
+            max-width: 800px;
         }
 
         .infographic h2 {
@@ -69,11 +80,7 @@
         .infographic p {
             font-size: 1.5rem;
             line-height: 1.6;
-        }
-
-        /* Transiciones entre secciones */
-        html {
-            scroll-behavior: smooth;
+            text-align: justify;
         }
 
         /* Estilos responsivos para tablets */
