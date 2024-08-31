@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,24 +13,36 @@
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
         }
 
-        /* Título centrado */
-        h1 {
-            text-align: center;
-            margin: 50px 0;
-            font-size: 2.5rem;
-        }
-
-        /* Contenedor para el gráfico */
-        .chart-container {
+        section {
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
             scroll-snap-align: start;
+            padding: 20px;
+        }
+
+        /* Título centrado y en grande */
+        .title-section {
+            background-color: #333;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 5vw;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Contenedor para el gráfico */
+        .chart-section {
+            background-color: #f9f9f9;
         }
 
         canvas {
@@ -38,54 +51,64 @@
         }
 
         /* Contenedor de infografía */
-        .infographic {
-            display: none;
-            padding: 20px;
+        .infographic-section {
             background-color: #fff;
-            margin: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: justify;
         }
 
-        /* Efecto de transición */
-        .infographic.show {
-            display: block;
+        .infographic {
+            display: none;
+            max-width: 800px;
+            text-align: justify;
             animation: fadeIn 2s ease-in-out;
         }
 
+        .infographic.show {
+            display: block;
+        }
+
+        /* Efecto de transición */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
+
 <body>
-    <h1>Share de Acciones</h1>
+    <section class="title-section">
+        <h1>Share de Acciones</h1>
+    </section>
 
-    <div class="chart-container">
+    <section class="chart-section">
         <canvas id="shareChart"></canvas>
-    </div>
+    </section>
 
-    <div class="infographic" id="infographic">
-        <h2>¿Por qué se muestran los datos de esta manera?</h2>
-        <p>
-            El gráfico de pastel es una herramienta visual que permite entender de manera sencilla 
-            la distribución porcentual de un total. En este caso, se utiliza para mostrar cómo se 
-            distribuye el share de acciones entre diferentes redes sociales durante el año 2022.
-            Instagram domina ampliamente el mercado con un 52% de las acciones, lo que refleja su 
-            popularidad y la preferencia de los usuarios por esta plataforma para interactuar con 
-            contenido. Facebook sigue siendo relevante con un 30%, mientras que TikTok y Twitter 
-            representan una porción más pequeña, con 12% y 6% respectivamente. Estos datos son 
-            cruciales para comprender las tendencias actuales en el consumo de redes sociales en la 
-            región y cómo las marcas deben adaptar sus estrategias de marketing digital.
-        </p>
-    </div>
+    <section class="infographic-section">
+        <div class="infographic" id="infographic">
+            <h2>¿Por qué se muestran los datos de esta manera?</h2>
+            <p>
+                El gráfico de pastel es una herramienta visual que permite entender de manera sencilla
+                la distribución porcentual de un total. En este caso, se utiliza para mostrar cómo se
+                distribuye el share de acciones entre diferentes redes sociales durante el año 2022.
+                Instagram domina ampliamente el mercado con un 52% de las acciones, lo que refleja su
+                popularidad y la preferencia de los usuarios por esta plataforma para interactuar con
+                contenido. Facebook sigue siendo relevante con un 30%, mientras que TikTok y Twitter
+                representan una porción más pequeña, con 12% y 6% respectivamente. Estos datos son
+                cruciales para comprender las tendencias actuales en el consumo de redes sociales en la
+                región y cómo las marcas deben adaptar sus estrategias de marketing digital.
+            </p>
+        </div>
+    </section>
 
     <!-- Cargar Chart.js desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Crear el gráfico de pastel
             const ctx = document.getElementById('shareChart').getContext('2d');
             const shareChart = new Chart(ctx, {
@@ -122,7 +145,7 @@
                         }
                     },
                     animation: {
-                        onComplete: function() {
+                        onComplete: function () {
                             // Mostrar la infografía después de que el gráfico se haya completado
                             document.getElementById('infographic').classList.add('show');
                         }
@@ -132,4 +155,5 @@
         });
     </script>
 </body>
+
 </html>
