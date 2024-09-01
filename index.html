@@ -1,173 +1,230 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artículo: Share de Acciones</title>
-  <style>
-    /* Estilos generales */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-      color: #333;
-      scroll-snap-type: y mandatory;
-      overflow-y: scroll;
-      height: 100vh;
-    }
-
-    section {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      scroll-snap-align: start;
-      padding: 20px;
-    }
-
-    /* Título centrado y en grande */
-    .title-section {
-      background-color: #333;
-      color: #fff;
-    }
-
-    h1 {
-      font-size: 5vw;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
-
-    /* Contenedor para el gráfico */
-    .chart-section {
-      background-color: #f9f9f9;
-    }
-
-    canvas {
-      max-width: 90%;
-      max-height: 90%;
-    }
-
-    /* Contenedor de infografía */
-    .infographic-section {
-      background-color: #fff;
-    }
-
-    .infographic {
-      display: none;
-      max-width: 800px;
-      text-align: justify;
-      animation: fadeIn 2s ease-in-out;
-    }
-
-    .infographic.show {
-      display: block;
-    }
-
-    /* Efecto de transición */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    /* Ajustes para pantallas pequeñas */
-    @media (max-width: 768px) {
-      .chart-section {
-        height: 120vh;
-        /* Aumentar la altura de la sección para pantallas verticales */
-      }
-
-      canvas {
-        max-width: 70%;
-        max-height: 70%;
-        /* Aumentar el tamaño del gráfico */
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <section class="title-section">
-    <h1>Share de Acciones</h1>
-  </section>
-
-  <section class="chart-section">
-    <canvas id="shareChart"></canvas>
-  </section>
-
-  <section class="infographic-section">
-    <div class="infographic" id="infographic">
-      <h2>¿Por qué se muestran los datos de esta manera?</h2>
-      <p>
-        El gráfico de pastel es una herramienta visual que permite entender de manera sencilla
-        la distribución porcentual de un total. En este caso, se utiliza para mostrar cómo se
-        distribuye el share de acciones entre diferentes redes sociales durante el año 2022.
-        Instagram domina ampliamente el mercado con un 52% de las acciones, lo que refleja su
-        popularidad y la preferencia de los usuarios por esta plataforma para interactuar con
-        contenido. Facebook sigue siendo relevante con un 30%, mientras que TikTok y Twitter
-        representan una porción más pequeña, con 12% y 6% respectivamente. Estos datos son
-        cruciales para comprender las tendencias actuales en el consumo de redes sociales en la
-        región y cómo las marcas deben adaptar sus estrategias de marketing digital.
-      </p>
-    </div>
-  </section>
-
-  <!-- Cargar Chart.js desde CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Crear el gráfico de pastel
-      const ctx = document.getElementById('shareChart').getContext('2d');
-      const shareChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-          labels: ['Instagram', 'Facebook', 'TikTok', 'Twitter'],
-          datasets: [{
-            label: 'Share de Acciones por Canal Social',
-            data: [52, 30, 12, 6],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.7)',
-              'rgba(54, 162, 235, 0.7)',
-              'rgba(255, 206, 86, 0.7)',
-              'rgba(75, 192, 192, 0.7)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Share de Acciones por Canal Social en 2022'
-            }
-          },
-          animation: {
-            onComplete: function() {
-              // Mostrar la infografía después de que el gráfico se haya completado
-              document.getElementById('infographic').classList.add('show');
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share de interacciones 2022</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
         }
-      });
-    });
-  </script>
-</body>
 
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #chart-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #333;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .button {
+            position: fixed;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        #to-chart {
+            top: 20px;
+            left: 20px;
+        }
+
+        #to-explanation {
+            top: 20px;
+            right: 20px;
+        }
+
+        .explanation-content {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+        }
+
+        .explanation-content.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .loader {
+                width: 80px;
+                height: 80px;
+            }
+            .button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            .loader {
+                width: 60px;
+                height: 60px;
+            }
+            .button {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="chart-section">
+        <h1>Share de interacciones 2022</h1>
+        <div class="loader"></div>
+        <div id="chart-container">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <button class="button" id="to-explanation" style="display: none;">Ir a Explicación</button>
+    </div>
+
+    <div class="explanation-content" id="explanation-section">
+        <h2>Explicación de la Interacción</h2>
+        <p>En esta sección se detalla el análisis de las interacciones del año 2022. Aquí se presentan gráficos y explicaciones sobre las tendencias y patrones observados.</p>
+        <button class="button" id="to-chart">Volver al Gráfico</button>
+    </div>
+
+    <script>
+        function showChart() {
+            document.getElementById('chart-section').style.display = 'flex';
+            document.getElementById('explanation-section').classList.remove('visible');
+            document.getElementById('chart-container').style.display = 'block';
+            document.querySelector('.loader').style.display = 'none';
+            document.getElementById('to-explanation').style.display = 'block';
+        }
+
+        function showExplanation() {
+            document.getElementById('chart-section').style.display = 'none';
+            document.getElementById('explanation-section').classList.add('visible');
+        }
+
+        document.getElementById('to-explanation').addEventListener('click', showExplanation);
+        document.getElementById('to-chart').addEventListener('click', function() {
+            document.getElementById('chart-section').style.display = 'flex';
+            document.getElementById('explanation-section').classList.remove('visible');
+            document.getElementById('chart-container').style.display = 'block';
+            document.querySelector('.loader').style.display = 'none';
+            document.getElementById('to-explanation').style.display = 'block';
+        });
+
+        // Inicializar el gráfico después de 5 segundos
+        setTimeout(function() {
+            document.getElementById('chart-section').style.display = 'flex';
+            document.querySelector('.loader').style.display = 'none';
+            document.getElementById('chart-container').style.display = 'block';
+            document.getElementById('to-explanation').style.display = 'block';
+            initializeChart();
+        }, 5000);
+
+        function initializeChart() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (context.parsed.raw !== null) {
+                                        label += ': ' + context.parsed.raw;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
 </html>
