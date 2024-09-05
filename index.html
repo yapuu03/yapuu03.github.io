@@ -76,6 +76,8 @@
     <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js Plugin para etiquetas -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
         // Inicializar reveal.js
         Reveal.initialize();
@@ -87,8 +89,7 @@
             datasets: [{
                 data: [52, 30, 12, 6],
                 backgroundColor: ['#E1306C', '#3b5998', '#69C9D0', '#1DA1F2'],
-                hoverBackgroundColor: ['#E1306C', '#3b5998', '#69C9D0', '#1DA1F2'],
-                size: 30
+                hoverBackgroundColor: ['#E1306C', '#3b5998', '#69C9D0', '#1DA1F2']
             }]
         };
 
@@ -102,17 +103,29 @@
                         position: 'top',
                         labels: {
                             font: {
-                                size: 40 // Tamaño de la fuente de la leyenda
+                                size: 18 // Tamaño de la fuente de la leyenda
                             }
                         }
                     },
                     tooltip: {
                         bodyFont: {
-                            size: 38 // Tamaño de la fuente de los tooltips
+                            size: 16 // Tamaño de la fuente de los tooltips
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        font: {
+                            size: 16, // Aumenta el tamaño de las etiquetas
+                            weight: 'bold'
+                        },
+                        formatter: (value, ctx) => {
+                            let label = ctx.chart.data.labels[ctx.dataIndex];
+                            return `${label}: ${value}%`;
                         }
                     }
                 }
-            }
+            },
+            plugins: [ChartDataLabels] // Activar el plugin para las etiquetas
         };
 
         new Chart(ctx, config);
