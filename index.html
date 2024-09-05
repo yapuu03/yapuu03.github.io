@@ -21,9 +21,18 @@
             color: #555;
         }
 
+        /* Estilo para que el canvas del gráfico no crezca indefinidamente */
+        .chart-container {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         canvas {
             display: block;
-            margin: 0 auto;
+            width: 100% !important;
+            height: auto !important;
         }
     </style>
 </head>
@@ -39,7 +48,9 @@
             <!-- Segunda diapositiva: Gráfico de torta -->
             <section>
                 <h2>Gráfico de Torta</h2>
-                <canvas id="chartShare" width="400" height="400"></canvas>
+                <div class="chart-container">
+                    <canvas id="chartShare"></canvas>
+                </div>
             </section>
 
             <!-- Tercera diapositiva: Explicación -->
@@ -86,7 +97,7 @@
             data: data,
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true, // Mantener las proporciones
                 plugins: {
                     legend: {
                         position: 'top',
