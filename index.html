@@ -21,7 +21,6 @@
             color: #555;
         }
 
-        /* Estilo para que el canvas del gráfico no crezca indefinidamente */
         .chart-container {
             position: relative;
             width: 80%;
@@ -97,29 +96,18 @@
             data: data,
             options: {
                 responsive: true,
-                maintainAspectRatio: true, // Mantener las proporciones
                 plugins: {
                     legend: {
                         position: 'top',
                         labels: {
                             font: {
-                                size: 18 // Aumenta el tamaño de la fuente de la leyenda
+                                size: 18 // Tamaño de la fuente de la leyenda
                             }
                         }
                     },
                     tooltip: {
                         bodyFont: {
-                            size: 16 // Aumenta el tamaño de la fuente de los tooltips
-                        }
-                    }
-                },
-                // Aumentar el tamaño de las etiquetas
-                scales: {
-                    r: {
-                        pointLabels: {
-                            font: {
-                                size: 18 // Tamaño de las etiquetas en el gráfico
-                            }
+                            size: 16 // Tamaño de la fuente de los tooltips
                         }
                     }
                 }
